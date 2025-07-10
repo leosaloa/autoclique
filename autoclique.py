@@ -4,7 +4,7 @@ from time import sleep
 import keyboard
 
 # Função entrada de dados
-def entrada_dados():
+def entrada_dados(janela):
     # Entrada quantidade
     cliques_txt = ctk.CTkLabel(janela,
                             text='Digite a quantidade:')
@@ -28,11 +28,11 @@ def entrada_dados():
                     corner_radius=100,
                     fg_color='#0E53B5',
                     hover_color='#1370F5',
-                    command=lambda: iniciar(cliques_input, intervalo_input))
+                    command=lambda: iniciar(cliques_input, intervalo_input, janela))
     botao.pack(pady=6)
 
 # Função obter dados com botão
-def iniciar(entrada_cliques, entrada_intervalo):
+def iniciar(entrada_cliques, entrada_intervalo, janela):
     qtde = int(entrada_cliques.get())
     intervalo_tratar = entrada_intervalo.get().replace(',', '.')
 
@@ -41,10 +41,10 @@ def iniciar(entrada_cliques, entrada_intervalo):
     else:
         intervalo = float(intervalo_tratar)
 
-    auto_clique(qtde, intervalo)
+    auto_clique(qtde, intervalo, janela)
 
 # Função rodar o auto clique
-def auto_clique(qtde_cliques, intervalo):
+def auto_clique(qtde_cliques, intervalo, janela):
     sleep(3)
     count = 0
     for _ in range(qtde_cliques):
@@ -53,10 +53,10 @@ def auto_clique(qtde_cliques, intervalo):
             p.click()
             sleep(intervalo)
             break
-    fim_cliques(count)
+    fim_cliques(count, janela)
 
 # Função finalizar cliques
-def fim_cliques(qtde_cliques):
+def fim_cliques(qtde_cliques, janela):
     popup = ctk.CTkToplevel(janela)
     popup.title('Fim')
     popup.geometry('180x60')
@@ -70,11 +70,13 @@ def fim_cliques(qtde_cliques):
     botao_fechar.pack(pady=5)
     
 # Criar interface
-janela = ctk.CTk()
-janela.geometry('220x150')
-janela.title('Cliques')
+def interface():
+    janela = ctk.CTk()
+    janela.geometry('220x150')
+    janela.title('Cliques')
 
-entrada_dados()
- 
-janela.mainloop()
-#teste
+    entrada_dados(janela)
+    
+    janela.mainloop()
+
+interface()
